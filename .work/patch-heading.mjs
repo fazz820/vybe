@@ -1,0 +1,2 @@
+import fs from 'node:fs';
+const p='../frontend/src/App.jsx';let s=fs.readFileSync(new URL(p,import.meta.url),'utf8');const old='<h1>Good people.<br/><span>Great plans.</span></h1>';const next='<h1>Find Your<br/><span>People.</span><br/>Discover Your<br/><span>Vibe.</span></h1>';if(!s.includes(old))throw new Error('Landing headline not found');s=s.replace(old,next);fs.writeFileSync(new URL(p,import.meta.url),s);console.log('Landing tagline now matches the brief.');

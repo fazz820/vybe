@@ -1,0 +1,4 @@
+import jwt from 'jsonwebtoken';
+export function signToken(user,remember=true){return jwt.sign({id:String(user._id)},process.env.JWT_SECRET,{expiresIn:remember?'30d':'12h'});}
+export function requireAuth(req,res,next){const token=(req.headers.authorization||'').replace(/^Bearer\s+/i,'');if(!token)return res.status(401).json({message:'Please log in to continue.'});try{req.userId=jwt.verify(token,process.env.JWT_SECRET).id;next();}catch{return res.status(401).json({message:'Your session has expired. Please log in again.'});}}
+export function errors(err,req,res,next){if(res.headersSent)return next(err);console.error(err);const message=err.name==='ValidationError'?Object.values(err.errors).map(e=>e.message).join(' '):err.code===11000?'That email or username is already in use.':err.message||'Something went wrong.';res.status(err.status||400).json({message});}

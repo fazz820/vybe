@@ -1,0 +1,7 @@
+node_modules/
+.env
+frontend/.env.local
+backend/.env
+backend/data/vybe.json
+frontend/dist/
+.DS_Store

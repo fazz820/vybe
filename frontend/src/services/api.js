@@ -1,0 +1,3 @@
+const TOKEN='vybe-token';
+export const getToken=()=>localStorage.getItem(TOKEN);export const setToken=t=>t?localStorage.setItem(TOKEN,t):localStorage.removeItem(TOKEN);
+export async function api(path,{method='GET',body,auth=true}={}){const headers={'Content-Type':'application/json'};if(auth&&getToken())headers.Authorization=`Bearer ${getToken()}`;let response;try{response=await fetch(`/api${path}`,{method,headers,...(body!==undefined?{body:JSON.stringify(body)}:{})})}catch{return Promise.reject(new Error('The VYBE server is offline. Start the backend, then try again.'))}const payload=await response.json().catch(()=>({}));if(!response.ok)throw new Error(payload.message||`Request failed (${response.status}).`);return payload}
